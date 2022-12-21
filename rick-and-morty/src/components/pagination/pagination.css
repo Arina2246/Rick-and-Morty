@@ -1,0 +1,28 @@
+.pagination{
+    display: flex;
+    justify-content: center;
+}
+
+.pagination button{
+    width: 50px;
+    height: 50px;
+    margin: 0px 10px 25px 10px;
+    background-color: rgb(32, 35, 41); 
+    border-radius: 24px;
+    color: #ffeba7;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid #ffeba7;
+}
+
+.pagination button:active{
+  border: 3px solid #ffeba7;
+}
+
+.pagination button:disabled,
+.pagination button[disabled]{
+  border: 2px solid #999999;
+  background-color: rgb(32, 35, 41);
+  color: #999999;
+}

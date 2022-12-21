@@ -4,7 +4,6 @@
     font-weight: 400;
     margin-top: 40px;
     height: 200px;
-    /* color: #ffeba7; */
     color: #c4c3ca;
     text-align: center;
     border-radius: 35px;
@@ -20,8 +19,6 @@
     height: 40px;
     width: 55%;
     outline: 0;
-    /* border: solid 10px #c4c3ca; */
-    /* background-color: #c4c3ca; */
     margin: 0 5px;
     border: solid 10px rgb(60, 62, 68);
     background-color: rgb(60, 62, 68);

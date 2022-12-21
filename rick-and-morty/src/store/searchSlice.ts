@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import {
   cardDataType,
+  pageDataType,
   paramsFetchDataType,
   initialStoreType,
 } from '../types/types';
@@ -15,10 +16,11 @@ export const fetchData = createAsyncThunk(
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error('Error');
+        throw new Error('Not found');
       }
       const data = await response.json();
       dispatch(addCads(data.results));
+      dispatch(addPage(data.info));
     } catch (error: unknown) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
@@ -28,9 +30,16 @@ export const fetchData = createAsyncThunk(
 );
 
 const initialState: initialStoreType = {
+  text: '',
   cards: [],
   status: null,
   error: null,
+  pageData: {
+    count: null,
+    next: null,
+    pages: null,
+    prev: null,
+  },
 };
 
 const searchSlice = createSlice({
@@ -40,11 +49,18 @@ const searchSlice = createSlice({
     addCads(state, action: PayloadAction<cardDataType[]>) {
       state.cards = action.payload;
     },
+    addPage(state, action: PayloadAction<pageDataType>) {
+      state.pageData = action.payload;
+    },
+    addText(state, action: PayloadAction<string>) {
+      state.text = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchData.pending, (state, action) => {
       state.status = 'loading';
       state.error = null;
+      state.cards = [];
     });
     builder.addCase(fetchData.fulfilled, (state, action) => {
       state.status = 'resolved';
@@ -53,9 +69,11 @@ const searchSlice = createSlice({
     builder.addCase(fetchData.rejected, (state, action) => {
       state.status = 'rejected';
       state.error = action.payload as string;
+      state.cards = [];
+      state.pageData = { count: null, next: null, pages: null, prev: null };
     });
   },
 });
 
-const { addCads } = searchSlice.actions;
+export const { addCads, addPage, addText } = searchSlice.actions;
 export const searchReducer = searchSlice.reducer;

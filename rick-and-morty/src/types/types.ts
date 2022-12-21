@@ -13,13 +13,22 @@ export type cardDataType = {
   created: string;
 };
 
+export type pageDataType = {
+  count: null | number;
+  next: null | string;
+  pages: null | number;
+  prev: null | number;
+};
+
 export type paramsFetchDataType = {
   name: string;
   page: number;
 };
 
 export type initialStoreType = {
+  text: string;
   status: string | null;
   error: string | null;
   cards: [] | cardDataType[];
+  pageData: pageDataType;
 };

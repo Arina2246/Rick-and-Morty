@@ -1,22 +1,30 @@
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../store';
+import { addText, fetchData } from '../../store/searchSlice';
 import './searchBar.css';
 
 type Props = {
-  text: string;
-  handleInput: React.Dispatch<React.SetStateAction<string>>;
-  handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
-
 export function SearchBar(props: Props) {
+  const { text } = useSelector((state: RootState) => state.search);
+  const dispatch = useAppDispatch();
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    props.setPage(1);
+    dispatch(fetchData({ name: text, page: 1 }));
+  };
+
   return (
     <div className='searchBar'>
       RICK AND MORTY
       <form>
         <input
           type='search'
-          value={props.text}
-          onChange={(e) => props.handleInput(e.target.value)}
+          value={text}
+          onChange={(e) => dispatch(addText(e.target.value))}
         />
-        <button onClick={(e) => props.handleSubmit(e)}>Search</button>
+        <button onClick={(e) => handleSubmit(e)}>Search</button>
       </form>
     </div>
   );
